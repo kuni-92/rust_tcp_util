@@ -2,6 +2,8 @@ use std::net::{TcpListener, TcpStream, ToSocketAddrs};
 
 use std::io::Result;
 
+/// `addr` is local endpoint. e.g. "127.0.0.1:8080".
+/// `handler` is working when connect to local endpoint.
 pub struct Server<A, T>
     where A: ToSocketAddrs, T: Fn(TcpStream) -> Result<()>
 {
@@ -22,6 +24,10 @@ impl <A, T> Server<A, T>
         }
     }
 
+    /// The server running.
+    /// Bind to local endpoint that be specified to `addr`.
+    /// When the server is connected, The server will work
+    /// the action specified to `handler`.
     pub fn run(&self) -> Result<()> {
         let listener = TcpListener::bind(&self.addr)?;
         
