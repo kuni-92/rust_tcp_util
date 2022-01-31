@@ -32,7 +32,10 @@ impl <A, T> Server<A, T>
         let listener = TcpListener::bind(&self.addr)?;
         
         for stream in listener.incoming() {
-            (self.handler)(stream?);
+            match (self.handler)(stream?) {
+                Ok(_) => println!("message receved!"),
+                Err(_) => println!("message receved error."),
+            }
         }
         Ok(())
     }
